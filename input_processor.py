@@ -12,8 +12,8 @@ class input_processor:
         docs=faiss_db.similarity_search(question)
         return docs
     
-    def get_response(self,chain,question):
-        response = chain({"question":question})
+    def get_response(self,chat,question):
+        response = chat.invoke(question)
         return response
     
     def get_knowledge_response(self,chain,docs,question):
