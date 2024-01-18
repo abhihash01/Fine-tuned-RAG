@@ -14,15 +14,15 @@ To use the knowledge base functionality, upload documents and process first to r
 
   
 
-git clone https://github.com/abhihash01/Fine-tuned-RAG.git
+    git clone https://github.com/abhihash01/Fine-tuned-RAG.git
 
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
   
 
-### Add api key in the .env file
+Add api key in the .env file
 
-streamlit run app.py
+    streamlit run app.py
 
   
 
