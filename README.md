@@ -8,6 +8,9 @@
 
     git clone https://github.com/abhihash01/Fine-tuned-RAG.git
     pip install -r requirements.txt
+
+### Add api key in the .env file    
+    
     streamlit run app.py
 
   
