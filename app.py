@@ -2,6 +2,7 @@ import streamlit as st
 from ingest import ingestor
 from input_processor import input_processor
 from prompt_conversatoin_chain import conversational_chain
+import validators
 class app:
     def run(self):
         ingest=ingestor()
@@ -11,12 +12,29 @@ class app:
 
         with st.sidebar:
             st.title("Knowledge Bases")
+            st.caption("No api required for enterprise models. Don't add both urls and pdfs together")
+            model_temp= st.selectbox("Select Model", ("Gemini", "OpenAI","LLama","Mistral"))
+            urls=pdf=None
+            urls = st.text_input("URL", label_visibility="collapsed")
             pdfs= st.file_uploader("Upload PDFs",accept_multiple_files=True)
             if st.button("Store Knowledge"):
                 with st.spinner("loading..."):
-                    raw_text=ingest.extract_pdf_text(pdfs)
-                    text_chunks = ingest.extract_text_chunks(raw_text)
-                    ingest.store_vectors(text_chunks)
+                    if pdfs:
+                        try:
+                            raw_text=ingest.extract_pdf_text(pdfs)
+                            text_chunks = ingest.extract_text_chunks(raw_text)
+                            ingest.store_vectors(text_chunks)
+                        except Exception as e:
+                            st.exception(f"Exception: {e}")
+                    if urls:
+                        if not validators.url(urls):
+                            st.error("Please enter a valid url")
+                        else:
+                            raw_text = ingest.extract_url_text([urls])
+                            text_chunks = ingest.extract_text_chunks(raw_text)
+                            ingest.store_vectors(text_chunks)
+
+
                     st.success("Done")
         
         question = st.text_input("Enter Question here")

@@ -1,5 +1,6 @@
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.document_loaders import UnstructuredURLLoader
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import google.generativeai as genai
@@ -20,6 +21,13 @@ class ingestor:
             for page in reader.pages:
                 text = text + page.extract_text()
         return text
+    
+    def extract_url_text(self,urls):
+        text = ""
+        loaders = UnstructuredURLLoader(urls=urls)
+        text = loaders.load()
+        return text
+
 
     def extract_text_chunks(self,text):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=100)
