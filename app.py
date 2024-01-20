@@ -30,6 +30,9 @@ class app:
                         if not validators.url(urls):
                             st.error("Please enter a valid url")
                         else:
+                            #text_chunks = ingest.extract_url_text_chunks([urls])
+                            #ingest.store_vectors_urls(text_chunks)
+
                             raw_text = ingest.extract_url_text([urls])
                             text_chunks = ingest.extract_text_chunks(raw_text)
                             ingest.store_vectors(text_chunks)
